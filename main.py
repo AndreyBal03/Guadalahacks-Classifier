@@ -4,7 +4,6 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 import functions
 from PIL import Image
 
-
 TOKEN: Final = '7066923535:AAETrI2qZQCAoEH6g2kg35UOdWlTPRRbtNw'
 BOT_USERNAME: Final = '@closet_ai_bot'
 
@@ -50,22 +49,17 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
 async def handle_images(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Verificar si el mensaje contiene una imagen
-    print("Aqui")
     if update.message.photo:
         # Obtener el identificador de la imagen más grande
         photo_id = update.message.photo[-1].file_id
         # Descargar la imagen
         photo_file = await context.bot.get_file(photo_id)
-        print("Aqui")
         # Guardar la imagen en un archivo
-        print(photo_file)
-        photo_file.download('imagen.jpg')
+        await photo_file.download_to_drive('imagen.jpg')
         # Cargar la imagen en PIL
-        print("Aqui2")
         image = Image.open('imagen.jpg')
          
-        ans = functions.forward(image)
-        print("Aqui")
+        ans = functions.forward_image(image)
         await update.message.reply_text(ans)
 
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):

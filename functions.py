@@ -78,4 +78,4 @@ def forward_image(image):
     pred = Model_(t_image)
     _, prediction = torch.max(pred, 1)
 
-    return f"Predicted {classes[prediction.item()]}"
+    return f"Prediccion {classes[prediction.item()]}"
