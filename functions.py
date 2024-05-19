@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from PIL import ImageOps
-from PIL import ImageOps
+from PIL import Image
 
 import os
 
@@ -38,6 +38,7 @@ class CustomTransform:
         resized_image = transforms.Resize(self.output_size)(image)
         # Convertir a blanco y negro y asegurarse de que tenga un solo canal
         bw_image = ImageOps.grayscale(resized_image).convert('L')
+        inverted_img = Image.eval(bw_image, lambda x: 255 - x)
         # Convertir la imagen PIL en un tensor
         tensor_image = transforms.ToTensor()(bw_image)
         # Normalizar la imagen
