@@ -1,6 +1,9 @@
 from typing import Final
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
+import functions
+from PIL import Image
+
 
 TOKEN: Final = '7066923535:AAETrI2qZQCAoEH6g2kg35UOdWlTPRRbtNw'
 BOT_USERNAME: Final = '@closet_ai_bot'
@@ -45,6 +48,26 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print('Bot: ', response)
     await update.message.reply_text(response)
     
+async def handle_images(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # Verificar si el mensaje contiene una imagen
+    print("Aqui")
+    if update.message.photo:
+        # Obtener el identificador de la imagen más grande
+        photo_id = update.message.photo[-1].file_id
+        # Descargar la imagen
+        photo_file = await context.bot.get_file(photo_id)
+        print("Aqui")
+        # Guardar la imagen en un archivo
+        print(photo_file)
+        photo_file.download('imagen.jpg')
+        # Cargar la imagen en PIL
+        print("Aqui2")
+        image = Image.open('imagen.jpg')
+         
+        ans = functions.forward(image)
+        print("Aqui")
+        await update.message.reply_text(ans)
+
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print(f'Update {update} caused error {context.error}')
     
@@ -54,11 +77,12 @@ if __name__ == '__main__':
     
     #Commands
     app.add_handler(CommandHandler('start', start_command))
-    app.add_handler(CommandHandler('help', start_command))
-    app.add_handler(CommandHandler('upload_image', start_command))
+    app.add_handler(CommandHandler('help', help_command))
+    app.add_handler(CommandHandler('upload_image', image_command))
 
     #Messages
     app.add_handler(MessageHandler(filters.TEXT, handle_message))
+    app.add_handler(MessageHandler(filters.PHOTO, handle_images))
     
     #Errors
     app.add_error_handler(error)

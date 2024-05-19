@@ -72,7 +72,7 @@ Model_ = Model()
 Model_.load_state_dict(torch.load(PATH))
 
 
-def handle_image(image):
+def forward_image(image):
     image = resize_image(image)
     t_image = transform(image).reshape([1,1,28,28])
     pred = Model_(t_image)
