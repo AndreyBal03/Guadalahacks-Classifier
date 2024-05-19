@@ -56,16 +56,16 @@ def resize_image(image):
     bw_image = ImageOps.grayscale(resized_image)
     return bw_image
 
-classes = {0: 'Camiseta',
- 1: 'Pantalon',
- 2: 'Jersey',
- 3: 'Vestido',
- 4: 'Abrigo',
- 5: 'Sandalia',
- 6: 'Camisa',
- 7: 'Tenis',
- 8: 'Bolsa',
- 9: 'Botas'}
+classes = {0: 'T-Shirt. The different ways in which you can reycle it are:\n- Cut it into cleaning rags.\n- Use it as fabric for DIY projects like quilting or pillow stuffing.\n- Donate it to clothing recycling programs or thrift stores.',
+ 1: 'Pants. The different ways in which you can reycle them are:\n- Cut them into shorts or capris.\n- Use the fabric for patchwork projects.\n- Donate them to textile recycling centers or thrift stores.',
+ 2: 'Jersey. The different ways in which you can reycle it are:\n- Turn it into throw pillows or cushion covers.\n- Use it for DIY tote bags or grocery bags.\n- Donate it to charity organizations or thrift stores.',
+ 3: 'Dress. The different ways in which you can reycle it are:\n- Repurpose it into skirts or tops.\n- Use the fabric for craft projects like hair accessories or pouches.\n- Donate it to clothing recycling programs or thrift stores.',
+ 4: 'Coat. The different ways in which you can reycle it are:\n- Donate it to homeless shelters or charitable organizations.\n- Repurpose the fabric into smaller items like scarves or hats.\n- Donate it to clothing recycling programs or thrift stores.',
+ 5: "Sandals. The different ways in which you can reycle them are:\n- If they're still wearable, donate them to shoe recycling programs or thrift stores.\n- If they're no longer wearable, check if the materials are recyclable in your area.",
+ 6: 'Shirt. The different ways in which you can reycle it are:\n- Cut it it cleaning cloths or handkerchiefs.\n- Use it for DIY projects like quilting or patchwork.\n- Donate it to textile recycling centers or thrift stores.',
+ 7: 'Sneakers. The different ways in which you can reycle them are:\n- Donate them to shoe recycling programs or thrift stores.\n- Some shoe brands offer recycling programs for old sneakers.',
+ 8: 'Bag. The different ways in which you can reycle it are:\n- Repurpose it as storage bags for shoes or accessories.\n- Donate it to charity shops or textile recycling programs.\n- Use it for organizing items in your home or when traveling.',
+ 9: 'Boots. The different ways in which you can reycle them are:\n- Repair and reuse them if possible.\n- Donate them to shoe repair shops or charity organizations.\n- Check if the materials are recyclable in your area.'}
 
 PATH = os.path.dirname(__file__) + "/cifar_net_Bueno.pth"
 transform = CustomTransform((28, 28))
@@ -79,4 +79,6 @@ def forward_image(image):
     pred = Model_(t_image)
     _, prediction = torch.max(pred, 1)
 
-    return f"Prediccion {classes[prediction.item()]}"
+    answer = f"Detected: {classes[prediction.item()]}\n"
+    
+    return answer
